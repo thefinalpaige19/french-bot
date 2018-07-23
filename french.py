@@ -1,7 +1,16 @@
 import random
 
+topic = input("Enter topic: ")
+
 questions = []
-for line in open('frencho.txt'):
+while True:
+    try:
+        file = open(topic + '.txt')
+        break
+    except FileNotFoundError:
+        print(topic + " is not a valid topic")
+        topic = input("Enter topic: ")
+for line in open( topic + '.txt'):
     questions.append(line.rstrip())
 
 
@@ -83,16 +92,19 @@ def find_similar_question(current_question):
 question_to_ask = random.choice(questions)
 print(question_to_ask)
 
-
-
-
-
-
-
-
+def help():
+    print("Type anything to move to the next question.")
+    print("Type nothing to end.")
 
 next_question = input("Next question? ")
 while next_question:
-    question_to_ask = find_similar_question(question_to_ask)
-    print(question_to_ask)
-    next_question = input("Next question? ")
+    if next_question.lower() == "help":
+        help()
+    else:
+        question_to_ask = find_similar_question(question_to_ask)
+        print(question_to_ask)
+    if questions:
+        next_question = input("Next question? ")
+    else:
+        print("No more questions.")
+        break
